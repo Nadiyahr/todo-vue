@@ -1,7 +1,5 @@
 # todo-vue
 
-[Demo](https://nadiyahr.github.io/todo-vue/)
-
 ## Project setup
 ```
 npm install
