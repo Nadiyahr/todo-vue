@@ -1,18 +1,38 @@
 <template>
   <div class="container">
     <h3 class="h3">{{ msg }}</h3>
-    <form action="submit" class="formAdd" >
-      <input class="inputAdd" placeholder="Add new todo" type="text" name="add" id="add">
-      <button class="add">+</button>
+    <form action="submit" @submit="addTodo" class="formAdd" >
+      <input class="inputAdd" placeholder="Add todo..." type="text" name="add" v-model="title">
+      <input type="submit" class="add" value="+">
     </form>
   </div>
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid';
 export default {
-  name: "TodoSearch",
+  name: "TodoAdd",
+  data() {
+    return {
+      title: ''
+    }
+  },
   props: {
     msg: String
+  },
+  methods: {
+    addTodo(e) {
+      e.preventDefault();
+      const newTodo = {
+        id: uuidv4(),
+        title: this.title,
+        comleted: false
+      }
+
+      this.$emit('add-todo', newTodo);
+
+      this.title = ''
+    }
   },
 }
 </script>
@@ -31,7 +51,7 @@ export default {
 .formAdd {
   display: flex;
   justify-content: space-between;
-  width: 102%;
+  width: 100%;
   height: 48px;
   margin-top: 10px;
   padding: 4px;
@@ -53,5 +73,11 @@ export default {
   border: none;
   border-radius: 4px;
   color: #fff;
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 100%;
+  }
 }
 </style>

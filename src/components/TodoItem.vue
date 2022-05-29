@@ -1,8 +1,9 @@
 <template>
   <div class="card">
     <p>{{todo.title}}</p>
-    <b-form-checkbox v-model="checked" name="check-button" switch>
-    </b-form-checkbox>
+    <p>{{todo.completed}}</p>
+    <!-- <b-form-checkbox v-model="checked" name="check-button" switch>
+    </b-form-checkbox> -->
   </div>
 </template>
 

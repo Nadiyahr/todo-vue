@@ -4,8 +4,8 @@
         <h1 class="title">Todo App</h1>
       <main class="main">
         <div class="wrapper">
-          <TodoSearch msg="Add todo"/>
-          <TodoContainer v-bind:todos="todos" />
+          <TodoAdd v-on:add-todo="addTodo" msg="Add todo"/>
+          <TodoContainer v-bind:todos="todos" v-bind:all="all" v-bind:done="done" v-bind:undone="undone" />
         </div>
       </main>
   </div>
@@ -13,31 +13,52 @@
 
 <script>
 import TodoContainer from './components/TodoContainer.vue'
-import TodoSearch from './components/TodoSearch.vue'
+import TodoAdd from './components/TodoAdd.vue'
 import axios from 'axios'
 
 export default {
   name: 'App',
   data() {
     return {
-      todos: []
+      todos: [],
+      done: [],
+      undone: [],
+      all: 0
     }
   },
   components: {
     TodoContainer,
-    TodoSearch,
+    TodoAdd,
   },
   methods: {
-    
+    addTodo(newTodo) {
+      const newData = [...this.todos, newTodo]
+      console.log(newData);
+      localStorage.setItem('vueTodos', JSON.stringify(newData))
+      this.todos = JSON.parse(localStorage.getItem('vueTodos'))
+      this.updateData(newData)
+    },
+    updateData(newData) {
+      this.all = newData.length;
+      this.done = newData.filter(data => data.completed)
+      this.undone = newData.filter(data => !data.completed)
+    }
   },
   created() {
+    if (JSON.parse(localStorage.getItem('vueTodos')) === null) {
       axios.get('https://jsonplaceholder.typicode.com/todos?_limit=20')
         .then(res => {
-           console.log(res);
-           return this.todos = res.data
+            localStorage.setItem('vueTodos', JSON.stringify(res.data))
+            const localData = JSON.parse(localStorage.getItem('vueTodos'))
+            this.updateData(localData)
+           return this.todos = localData
           })
         .catch(console.log)
+    } else {
+      this.todos = JSON.parse(localStorage.getItem('vueTodos'));
+      this.updateData(this.todos)
     }
+  }
 }
 </script>
 
@@ -57,14 +78,14 @@ body {
 
 .hello {
   width: 100%;
-  height: 11vh;
+  height: 8vh;
   background-color: #00b3bd;
 }
 
 .title {
   text-align: start;
-  padding-left: 8.5%;
-  padding-top: 22px;
+  padding: 0 6%;
+  /* padding-left: 8.5%; */
   font-size: 40px;
 }
 
@@ -77,7 +98,7 @@ body {
   width: 93%;
   display: flex;
   justify-content: space-around;
-  padding: 20px;
+  padding: 0;
   border-radius: 6px;
 }
 
@@ -94,8 +115,10 @@ body {
     padding: 0;
     padding-left: 6%;
   }
-  /* .main {
-  } */
+  .main {
+    width: 90%;
+    margin: auto;
+  }
   .wrapper {
     width: 100%;
     padding-top: 0;
