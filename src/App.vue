@@ -1,10 +1,13 @@
 <template>
   <div id="app" class="app">
-    <div class="hello"></div>
-    <main class="wrapper">
-      <TodoSearch msg="Add todo"/>
-      <TodoContainer v-bind:todos="todos" />
-    </main>
+      <div class="hello"></div>
+        <h1 class="title">Todo App</h1>
+      <main class="main">
+        <div class="wrapper">
+          <TodoSearch msg="Add todo"/>
+          <TodoContainer v-bind:todos="todos" />
+        </div>
+      </main>
   </div>
 </template>
 
@@ -52,22 +55,56 @@ body {
   padding: 0;
 }
 
-.wrapper {
-  display: flex;
-  justify-content: space-evenly;
-  padding: 20px;
-}
-
 .hello {
   width: 100%;
-  height: 75px;
+  height: 11vh;
   background-color: #00b3bd;
 }
 
+.title {
+  text-align: start;
+  padding-left: 8.5%;
+  padding-top: 22px;
+  font-size: 40px;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper {
+  width: 93%;
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  border-radius: 6px;
+}
+
 .container {
-  width: 600px;
+  width: 45%;
+  text-align: start;
   background-color: #ededed;
   border-radius: 4px;
   padding: 30px;
+}
+
+@media (max-width: 700px) {
+  .title {
+    padding: 0;
+    padding-left: 6%;
+  }
+  /* .main {
+  } */
+  .wrapper {
+    width: 100%;
+    padding-top: 0;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .container {
+    width: 100%;
+  }
 }
 </style>
