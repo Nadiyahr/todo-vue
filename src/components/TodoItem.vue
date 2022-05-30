@@ -1,5 +1,6 @@
 <template>
   <div class="card">
+    <button @click="onDeleteTodo(todo.id)">x</button>
     <p>{{todo.title}}</p>
     <p>{{todo.completed}}</p>
     <!-- <b-form-checkbox v-model="checked" name="check-button" switch>
@@ -22,7 +23,12 @@ export default {
       title: String,
       userId: Number
     }
-  }
+  },
+  methods: {
+    onDeleteTodo(id) {
+      this.$emit('del-todo', id)
+    }
+  },
 }
 </script>
 

@@ -3,7 +3,7 @@
     <h3 class="h3">{{ msg }}</h3>
     <form action="submit" @submit="addTodo" class="formAdd" >
       <input class="inputAdd" placeholder="Add todo..." type="text" name="add" v-model="title">
-      <input type="submit" class="add" value="+">
+      <input type="submit" class="btnAdd" value="+">
     </form>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
       const newTodo = {
         id: uuidv4(),
         title: this.title,
-        comleted: false
+        completed: false
       }
 
       this.$emit('add-todo', newTodo);
@@ -66,13 +66,14 @@ export default {
   outline: none;
 }
 
-.add {
+.btnAdd {
   width: 40px;
   background-color: #00b3bd;
   outline: none;
   border: none;
   border-radius: 4px;
   color: #fff;
+  cursor: pointer;
 }
 
 @media (max-width: 600px) {

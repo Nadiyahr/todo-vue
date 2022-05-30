@@ -34,7 +34,7 @@
     </div>
     <div class="todos">
       <div v-bind:key="todo.id" v-for="todo in filter" id="todos">
-        <TodoItem v-bind:todo="todo" />
+        <TodoItem v-bind:todo="todo" @del-todo="$emit('del-todo', todo.id)"/>
       </div>
     </div>
   </div>
@@ -56,7 +56,7 @@ export default {
   methods: {
     setTodos(data, status) {
       this.filter = data;
-      
+
 
       if (status === 'viewAll') {
         this.viewAll = true,
@@ -78,6 +78,12 @@ export default {
   },
   components: {
     TodoItem,
+  },
+  emits: ['del-todo'],
+  watch: {
+    'todos'() {
+      this.$emit('update:this.todos', this.todos)
+    }
   },
   created() {
     this.setTodos(this.todos, 'viewAll')

@@ -5,7 +5,7 @@
       <main class="main">
         <div class="wrapper">
           <TodoAdd v-on:add-todo="addTodo" msg="Add todo"/>
-          <TodoContainer v-bind:todos="todos" v-bind:all="all" v-bind:done="done" v-bind:undone="undone" />
+           <TodoContainer @del-todo="ddeleteTodo" v-bind:todos.sync="todos" v-bind:all="all" v-bind:done="done" v-bind:undone="undone" />
         </div>
       </main>
   </div>
@@ -42,17 +42,28 @@ export default {
       this.all = newData.length;
       this.done = newData.filter(data => data.completed)
       this.undone = newData.filter(data => !data.completed)
+    },
+    ddeleteTodo(id) {
+      console.log(id, 'todo');
+      const filter = this.todos.filter(todo => todo.id !== id)
+      localStorage.setItem('vueTodos', JSON.stringify(filter))
+      this.todos = JSON.parse(localStorage.getItem('vueTodos'))
+      this.updateData(filter)
     }
   },
   created() {
-    if (JSON.parse(localStorage.getItem('vueTodos')) === null) {
+    if (
+      JSON.parse(localStorage.getItem('vueTodos')).length === 0
+      || JSON.parse(localStorage.getItem('vueTodos')) === null
+    ) {
       axios.get('https://jsonplaceholder.typicode.com/todos?_limit=20')
         .then(res => {
-            localStorage.setItem('vueTodos', JSON.stringify(res.data))
-            const localData = JSON.parse(localStorage.getItem('vueTodos'))
-            this.updateData(localData)
-           return this.todos = localData
-          })
+
+          localStorage.setItem('vueTodos', JSON.stringify(res.data))
+          const localData = JSON.parse(localStorage.getItem('vueTodos'))
+          this.updateData(localData)
+          return this.todos = localData
+        })
         .catch(console.log)
     } else {
       this.todos = JSON.parse(localStorage.getItem('vueTodos'));
@@ -84,8 +95,8 @@ body {
 
 .title {
   text-align: start;
+  margin: 10px;
   padding: 0 6%;
-  /* padding-left: 8.5%; */
   font-size: 40px;
 }
 

@@ -2,6 +2,8 @@
 
 [Demo](https://nadiyahr.github.io/todo-vue/)
 
+ git subtree push --prefix dist origin gh-pages
+
 ## Project setup
 ```
 npm install
