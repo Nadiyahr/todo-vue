@@ -6,34 +6,34 @@
     </div>
     <div class="quantity">
     <button
-      @click="setTodos(todos, 'viewAll')"
+      @click="$emit('set-view', todos, 'viewAll')"
       name="viewAll"
       class="qu"
-      v-bind:class="{'active': viewAll}"
+      v-bind:class="{'active': view.all}"
     >
       All {{all}}
     </button>
     /
     <button
-      @click="setTodos(done, 'viewDone')"
+      @click="$emit('set-view', done, 'viewDone')"
       name="viewDone"
       class="qu"
-      v-bind:class="{'active': viewDone}"
+      v-bind:class="{'active': view.done}"
     >
       Done {{done.length}}
     </button>
     /
     <button
-      @click="setTodos(undone, 'viewUndone')"
+      @click="$emit('set-view', undone, 'viewUndone')"
       name="viewUndone"
       class="qu"
-      v-bind:class="{'active': viewUndone}"
+      v-bind:class="{'active': view.undone}"
     >
       Undone {{undone.length}}
     </button>
     </div>
     <div class="todos">
-      <div v-bind:key="todo.id" v-for="todo in filter" id="todos">
+      <div v-bind:key="todo.id" v-for="todo in todos" id="todos">
         <TodoItem v-bind:todo="todo" @del-todo="$emit('del-todo', todo.id)"/>
       </div>
     </div>
@@ -44,49 +44,13 @@
 import TodoItem from './TodoItem.vue'
 export default {
   name: 'TodoContainer',
-  data() {
-    return {
-      filter: [],
-      viewAll: true,
-      viewDone: false,
-      viewUndone: false
-    }
-  },
-  props: ['todos', 'all', 'done', 'undone'],
-  methods: {
-    setTodos(data, status) {
-      this.filter = data;
-
-
-      if (status === 'viewAll') {
-        this.viewAll = true,
-        this.viewDone = false,
-        this.viewUndone = false
-      }
-      if (status === 'viewDone') {
-        this.viewAll = false,
-        this.viewDone = true,
-        this.viewUndone = false
-      }
-
-      if (status === 'viewUndone') {
-        this.viewAll = false,
-        this.viewDone = false,
-        this.viewUndone = true
-      }
-    }
-  },
+  props: ['todos', 'all', 'done', 'undone', 'view'],
   components: {
     TodoItem,
   },
-  emits: ['del-todo'],
-  watch: {
-    'todos'() {
-      this.$emit('update:this.todos', this.todos)
-    }
-  },
+  emits: ['del-todo', 'set-view'],
   created() {
-    this.setTodos(this.todos, 'viewAll')
+    this.$emit('set-view', this.todos, 'viewAll')
   }
 }
 </script>

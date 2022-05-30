@@ -12,10 +12,10 @@
 export default {
   name: "TodoItem",
   data() {
-      return {
-        checked: false
-      }
-    },
+    return {
+      checked: false
+    }
+  },
   props:{
     todo: {
       completed: Boolean,

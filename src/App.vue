@@ -5,7 +5,15 @@
       <main class="main">
         <div class="wrapper">
           <TodoAdd v-on:add-todo="addTodo" msg="Add todo"/>
-           <TodoContainer @del-todo="ddeleteTodo" v-bind:todos.sync="todos" v-bind:all="all" v-bind:done="done" v-bind:undone="undone" />
+           <TodoContainer
+             @del-todo="deleteTodo"
+             @set-view="setTodos"
+             :todos.sync="todos"
+             :all="all"
+             :done="done"
+             :undone="undone"
+             :view="view"
+            />
         </div>
       </main>
   </div>
@@ -23,7 +31,12 @@ export default {
       todos: [],
       done: [],
       undone: [],
-      all: 0
+      all: 0,
+      view: {
+        all: true,
+        done: false,
+        undone: false
+      }
     }
   },
   components: {
@@ -43,12 +56,33 @@ export default {
       this.done = newData.filter(data => data.completed)
       this.undone = newData.filter(data => !data.completed)
     },
-    ddeleteTodo(id) {
+    deleteTodo(id) {
       console.log(id, 'todo');
       const filter = this.todos.filter(todo => todo.id !== id)
       localStorage.setItem('vueTodos', JSON.stringify(filter))
       this.todos = JSON.parse(localStorage.getItem('vueTodos'))
       this.updateData(filter)
+    },
+    setTodos(data, status) {
+      this.todos = data;
+
+
+      if (status === 'viewAll') {
+        this.view.all = true,
+        this.view.done = false,
+        this.view.undone = false
+      }
+      if (status === 'viewDone') {
+        this.view.all = false,
+        this.view.done = true,
+        this.view.undone = false
+      }
+
+      if (status === 'viewUndone') {
+        this.view.all = false,
+        this.view.done = false,
+        this.view.undone = true
+      }
     }
   },
   created() {
