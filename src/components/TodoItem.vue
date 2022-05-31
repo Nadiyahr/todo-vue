@@ -1,10 +1,21 @@
 <template>
   <div class="card">
-    <button @click="onDeleteTodo(todo.id)">x</button>
-    <p class="todo-title">{{todo.title}}</p>
-    <p>{{todo.completed}}</p>
-    <!-- <b-form-checkbox v-model="checked" name="check-button" switch>
-    </b-form-checkbox> -->
+    <button class="f-btn" @click="onDeleteTodo(todo.id)">x</button>
+    <h3 class="todo-title">{{todo.title}}</h3>
+    <p >
+      <onoff-toggle
+        v-model="checked"
+        @input="onTogleTodo"
+        theme="ios"
+        onColor="#ededed"
+        offColor="#ededed"
+        borderColor="#ededed"
+        thumbColor="#00b3db"
+        width="60"
+        height="30"
+        shadow="shadow"
+      />
+    </p>
   </div>
 </template>
 
@@ -13,7 +24,8 @@ export default {
   name: "TodoItem",
   data() {
     return {
-      checked: false
+      checked: this.todo.completed,
+      shadow: false
     }
   },
   props:{
@@ -27,27 +39,25 @@ export default {
   methods: {
     onDeleteTodo(id) {
       this.$emit('del-todo', id)
+    },
+    onTogleTodo() {
+      this.$emit('toggle-status' , this.todo.id)
     }
   },
 }
 </script>
 
 <style scoped>
-  .card {
-    width: 100%;
-    background-color: #fff;
-    padding: 4px;
-    margin-bottom: 8px;
-    border-radius: 4px;
-  }
+.f-btn {
+  height: 30px;
+  margin-right: 12px;
+  color: #00000040;
+  font-size: 14px;
+  transition: all 0.5;
+}
 
-  .todo-title {
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 20px;
-  }
-
-  .todo-title:first-letter {
-    text-transform: uppercase;
-  }
+.f-btn:hover {
+  color: #ce6b6b;
+  transform: scale(1.3);
+}
 </style>

@@ -2,21 +2,21 @@
   <div class="container">
     <h3 class="h3">{{ msg }}</h3>
     <form
-      class="formAdd"
+      class="form-add"
       action="submit"
       @submit="addTodo"
       @keyup.enter="addTodo()"
     >
       <input
-        class="inputAdd placeholder"
+        class="input-add input"
         type="text"
         name="add"
-        :placeholder="msg"
+        placeholder="Todo name"
         v-model="title"
       >
       <input
         type="submit"
-        class="btnAdd"
+        class="btn-add"
         value="+"
       >
     </form>
@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
 .container {
-  width: 40%;
+  width: 41%;
   text-align: start;
   height: 160px;
 }
@@ -63,35 +63,7 @@ export default {
   margin-top: 0;
 }
 
-.formAdd {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  height: 48px;
-  margin-top: 10px;
-  padding: 4px;
-  background-color: #fff;
-  border: none;
-  border-radius: 4px;
-}
-
-.inputAdd {
-  width: 80%;
-  border: none;
-  outline: none;
-}
-
-.btnAdd {
-  width: 40px;
-  background-color: #00b3bd;
-  outline: none;
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  cursor: pointer;
-}
-
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .container {
     width: 100%;
   }

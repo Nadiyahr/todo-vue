@@ -1,46 +1,54 @@
 <template>
   <div class="container">
-    <form class="titleSearch">
-      <h3 class="my-todos">My todos</h3>
+    <form class="form-search">
+      <h3>My todos</h3>
       <input
-        class="search placeholder"
+        class="search input"
         type="text"
         placeholder="Search"
         name="search"
         v-model="searchBy"
       >
     </form>
-    <div class="quantity">
+    <div class="filter-btns">
     <button
-      @click="getView(todos, 'viewAll')"
+      @click="setTodos('viewAll')"
       name="viewAll"
-      class="qu"
+      class="f-btn"
       v-bind:class="{'active': view.all}"
     >
-      All {{counters.all}}
+      All
     </button>
     /
     <button
-      @click="getView(done, 'viewDone')"
+      @click="setTodos('viewDone')"
       name="viewDone"
-      class="qu"
+      class="f-btn"
       v-bind:class="{'active': view.done}"
     >
-      Completed {{counters.done.length}}
+      Completed
     </button>
     /
     <button
-      @click="getView(undone, 'viewUndone')"
+      @click="setTodos('viewUndone')"
       name="viewUndone"
-      class="qu"
+      class="f-btn"
       v-bind:class="{'active': view.undone}"
     >
-      Incomplete {{counters.undone.length}}
+      Incomplete
     </button>
     </div>
     <div class="todos">
-      <div v-bind:key="todo.id" v-for="todo in filterTodo" id="todos">
-        <TodoItem v-bind:todo="todo" @del-todo="$emit('del-todo', todo.id)"/>
+      <div
+        v-bind:key="todo.id"
+        v-for="todo in filterTodo"
+        id="todos"
+      >
+        <TodoItem
+          v-bind:todo="todo"
+          @del-todo="$emit('del-todo', todo.id)"
+          @toggle-status="$emit('toggle-status', todo.id)"
+        />
       </div>
     </div>
     <div class="footer"></div>
@@ -54,6 +62,11 @@ export default {
   data() {
     return {
       searchBy: null,
+      view: {
+        all: true,
+        done: false,
+        undone: false
+      }
     }
   },
   methods: {
@@ -61,23 +74,47 @@ export default {
       this.$emit('set-view', arr, type);
       this.filter.showFilter = false;
     },
-    
+    setTodos(status) {
+      if (status === 'viewAll') {
+        this.view.all = true,
+        this.view.done = false,
+        this.view.undone = false
+      }
+      if (status === 'viewDone') {
+        this.view.all = false,
+        this.view.done = true,
+        this.view.undone = false
+      }
+      if (status === 'viewUndone') {
+        this.view.all = false,
+        this.view.done = false,
+        this.view.undone = true
+      }
+    }
   },
-  props: ['todos', 'counters', 'view'],
+  props: ['todos'],
   components: {
     TodoItem,
   },
-  emits: ['del-todo', 'set-view'],
+  emits: ['del-todo', 'toggle-status'],
   created() {
-    this.$emit('set-view', this.todos, 'viewAll');
+    this.setTodos('viewAll');
   },
   computed: {
     filterTodo() {
       if (this.searchBy) {
-        return this.todos.filter(todo => todo.title.toLowerCase().includes(this.searchBy.toLowerCase()));
+        return this.todos.filter(todo => todo.title.includes(this.searchBy));
       }
-      
-      return this.todos;
+
+      if (this.view.done) {
+        return this.todos.filter(todo => todo.completed);
+      }
+
+      if (this.view.undone) {
+        return this.todos.filter(todo => !todo.completed);
+      }
+
+      return this.todos
     }
   },
 }
@@ -86,49 +123,35 @@ export default {
 <style scoped>
 .container {
   width: 50%;
-  height: 76vh;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  height: 600px;
+  padding: 20px 0;
 }
 
-.todos {
-  max-height: 80%;
-  overflow-y: scroll;
+h3 {
+  margin-top: 16px;
 }
 
-.titleSearch {
-  display: flex;
-  justify-content: space-between;
-  padding: 4px;
+::-webkit-scrollbar {
+  width: 4px;
 }
 
-.search {
-  height: 38px;
-  border: none;
-  outline: none;
+::-webkit-scrollbar-track {
+  background-color: #ededed;
 }
 
-.my-todos {
-  margin-top: 18px;
+::-webkit-scrollbar-thumb {
+  background-color: #00b3bd;
 }
 
-.quantity {
-  padding-bottom: 12px;
-}
-
-.qu {
-  border: none;
-  cursor: pointer;
-}
-
-.active {
-  color: #00b3bd;
-}
-
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .container {
     width: 100%;
   }
 }
 
+@media (max-width: 480px) {
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+}
 </style>
