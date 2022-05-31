@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <button @click="onDeleteTodo(todo.id)">x</button>
-    <p>{{todo.title}}</p>
+    <p class="todo-title">{{todo.title}}</p>
     <p>{{todo.completed}}</p>
     <!-- <b-form-checkbox v-model="checked" name="check-button" switch>
     </b-form-checkbox> -->
@@ -39,5 +39,15 @@ export default {
     padding: 4px;
     margin-bottom: 8px;
     border-radius: 4px;
+  }
+
+  .todo-title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .todo-title:first-letter {
+    text-transform: uppercase;
   }
 </style>

@@ -1,9 +1,24 @@
 <template>
   <div class="container">
     <h3 class="h3">{{ msg }}</h3>
-    <form action="submit" @submit="addTodo" class="formAdd" >
-      <input class="inputAdd" placeholder="Add todo..." type="text" name="add" v-model="title">
-      <input type="submit" class="btnAdd" value="+">
+    <form
+      class="formAdd"
+      action="submit"
+      @submit="addTodo"
+      @keyup.enter="addTodo()"
+    >
+      <input
+        class="inputAdd placeholder"
+        type="text"
+        name="add"
+        :placeholder="msg"
+        v-model="title"
+      >
+      <input
+        type="submit"
+        class="btnAdd"
+        value="+"
+      >
     </form>
   </div>
 </template>

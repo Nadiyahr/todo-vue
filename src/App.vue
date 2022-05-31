@@ -4,14 +4,12 @@
         <h1 class="title">Todo App</h1>
       <main class="main">
         <div class="wrapper">
-          <TodoAdd v-on:add-todo="addTodo" msg="Add todo"/>
+          <TodoAdd @add-todo="addTodo" msg="Add todo"/>
            <TodoContainer
              @del-todo="deleteTodo"
              @set-view="setTodos"
              :todos.sync="todos"
-             :all="all"
-             :done="done"
-             :undone="undone"
+             :counters="counters"
              :view="view"
             />
         </div>
@@ -29,14 +27,17 @@ export default {
   data() {
     return {
       todos: [],
-      done: [],
-      undone: [],
-      all: 0,
+      counters: {
+        done: [],
+        undone: [],
+        all: 0,
+      },
       view: {
         all: true,
         done: false,
         undone: false
-      }
+      },
+      keyWord: ''
     }
   },
   components: {
@@ -52,9 +53,9 @@ export default {
       this.updateData(newData)
     },
     updateData(newData) {
-      this.all = newData.length;
-      this.done = newData.filter(data => data.completed)
-      this.undone = newData.filter(data => !data.completed)
+      this.counters.all = newData.length;
+      this.counters.done = newData.filter(data => data.completed)
+      this.counters.undone = newData.filter(data => !data.completed)
     },
     deleteTodo(id) {
       console.log(id, 'todo');
@@ -63,9 +64,15 @@ export default {
       this.todos = JSON.parse(localStorage.getItem('vueTodos'))
       this.updateData(filter)
     },
+    filterTodos(input) {
+      const filtredTodos = this.todos;
+
+      this.todos = filtredTodos.filter((todo) => input === ''
+        ? todo
+        : todo.title.toLowerCase().slice(0, input.length) === input.toLowerCase())
+    },
     setTodos(data, status) {
       this.todos = data;
-
 
       if (status === 'viewAll') {
         this.view.all = true,
@@ -77,7 +84,6 @@ export default {
         this.view.done = true,
         this.view.undone = false
       }
-
       if (status === 'viewUndone') {
         this.view.all = false,
         this.view.done = false,
@@ -140,6 +146,7 @@ body {
 }
 
 .wrapper {
+  position: relative;
   width: 93%;
   display: flex;
   justify-content: space-around;
@@ -153,6 +160,28 @@ body {
   background-color: #ededed;
   border-radius: 4px;
   padding: 30px;
+}
+
+.footer {
+  position: absolute;
+  right: 32px;
+  bottom: 0;
+  width: inherit;
+  height: 56px;
+  border-radius: 6px;
+  background: rgb(237,237,237);
+  background: linear-gradient(0deg, #ededed, #ededed80);
+}
+
+.placeholder {
+  padding-left: 16px;
+  font-size: 16px;
+  line-height: 19px;
+  color: #00000090;
+}
+
+.placeholder::placeholder {
+  color: #00000040;
 }
 
 @media (max-width: 700px) {
