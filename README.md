@@ -1,8 +1,9 @@
 # todo-vue
 
 [Demo](https://nadiyahr.github.io/todo-vue/)
+[Task](https://www.figma.com/file/PNuLGkvoAfB2yxIzzhDteF/Frontend-Test-APP)
 
- git subtree push --prefix dist origin gh-pages
+This is my first encounter whit Vue.
 
 ## Project setup
 ```
