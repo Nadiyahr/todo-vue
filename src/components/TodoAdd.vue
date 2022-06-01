@@ -10,7 +10,7 @@
       @keydown="error = ''"
     >
       <input
-        class="input-add input"
+        class="input-add todo-input"
         type="text"
         name="add"
         placeholder="Todo name"

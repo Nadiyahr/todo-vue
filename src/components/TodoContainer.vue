@@ -3,7 +3,7 @@
     <form class="form-search">
       <h3>My todos</h3>
       <input
-        class="search input"
+        class="search todo-input"
         type="text"
         placeholder="Search"
         name="search"
@@ -150,6 +150,7 @@ h3 {
 }
 
 @media (max-width: 480px) {
+
   ::-webkit-scrollbar {
     width: 2px;
   }

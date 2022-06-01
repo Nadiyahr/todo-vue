@@ -48,14 +48,14 @@ h3 {
   padding: 30px;
 }
 
-.input {
+.todo-input {
   font-size: 16px;
   font-weight: 700;
   line-height: 18px;
   color: #00000090;
 }
 
-.input::placeholder {
+.todo-input::placeholder {
   color: #00000040;
 }
 
