@@ -1,9 +1,10 @@
 # todo-vue
 
 [Demo](https://nadiyahr.github.io/todo-vue/)
+
 [Task](https://www.figma.com/file/PNuLGkvoAfB2yxIzzhDteF/Frontend-Test-APP)
 
-This is my first encounter whit Vue.
+This is my first encounter with Vue.
 
 ## Project setup
 ```
