@@ -1,11 +1,13 @@
 <template>
   <div class="container">
     <h3 class="h3">{{ msg }}</h3>
+    <p class="error">{{error}}</p>
     <form
       class="form-add"
       action="submit"
       @submit="addTodo"
       @keyup.enter="addTodo()"
+      @keydown="error = ''"
     >
       <input
         class="input-add input"
@@ -29,7 +31,8 @@ export default {
   name: "TodoAdd",
   data() {
     return {
-      title: ''
+      title: '',
+      error: ''
     }
   },
   props: {
@@ -38,15 +41,20 @@ export default {
   methods: {
     addTodo(e) {
       e.preventDefault();
-      const newTodo = {
-        id: uuidv4(),
-        title: this.title,
-        completed: false
+      if (this.title) {
+        const newTodo = {
+          id: uuidv4(),
+          title: this.title,
+          completed: false
+        }
+
+        this.$emit('add-todo', newTodo);
+
+        this.title = '';
+        this.error = '';
+      } else {
+        this. error = 'Input is empty!'
       }
-
-      this.$emit('add-todo', newTodo);
-
-      this.title = ''
     }
   },
 }
@@ -60,7 +68,13 @@ export default {
 }
 
 .h3 {
-  margin-top: 0;
+  margin: 0;
+}
+
+.error {
+  height: 28px;
+  margin: 0;
+  color: #ce6b6b;
 }
 
 @media (max-width: 768px) {
