@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     addTodo(newTodo) {
-      const newData = this.sortTodos([...this.todos, newTodo]);
+      const newData = this.sortTodos([newTodo, ...this.todos]);
       localStorage.setItem('vueTodos', JSON.stringify(newData))
       this.todos = JSON.parse(localStorage.getItem('vueTodos'))
     },
@@ -55,10 +55,10 @@ export default {
     }
   },
   created() {
-    if (
-      JSON.parse(localStorage.getItem('vueTodos')).length === 0
-      || JSON.parse(localStorage.getItem('vueTodos')) === null
-    ) {
+    const local = JSON.parse(localStorage.getItem('vueTodos'));
+
+    if (local.length === 0 || local === null) {
+
       axios.get('https://jsonplaceholder.typicode.com/todos?_limit=20')
         .then(res => {
           localStorage.setItem('vueTodos', JSON.stringify(res.data))
@@ -67,7 +67,7 @@ export default {
         })
         .catch(console.log)
     } else {
-      this.todos = this.sortTodos(JSON.parse(localStorage.getItem('vueTodos')));
+      this.todos = this.sortTodos(local);
     }
   }
 }
