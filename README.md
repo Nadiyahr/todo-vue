@@ -1,6 +1,6 @@
 # todo-vue
 
-[Demo](https://nadiyahr.github.io/todo-vue/)
+[Demo](https://nadiyahr.github.io/vue-todo/)
 
 [Task](https://www.figma.com/file/PNuLGkvoAfB2yxIzzhDteF/Frontend-Test-APP)
 
